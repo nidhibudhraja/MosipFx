@@ -70,14 +70,15 @@
 	    <groupId>com.opencsv</groupId> 
 	    <artifactId>opencsv</artifactId> 
 	    <version>3.5</version> 
-	    <scope>test</scope>
+	  
 	</dependency>
 
 	<dependency>
 		<groupId>org.junit.jupiter</groupId>
 		<artifactId>junit-jupiter-params</artifactId>
-		<version>5.7.0-M1</version>
-		<scope>test</scope>
+		<version>5.5.1</version>
+		
+	
 	</dependency> 
 
       </dependencies>

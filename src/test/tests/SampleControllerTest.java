@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 
 
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
@@ -42,8 +44,11 @@ class SampleControllerTest  {
 	}
 
 
-	@Test
-	void loginTest(FxRobot robot) {
+	//@Test
+	@ParameterizedTest(name = "{index} => nextLine[0]={0}, nextLine[1]={1}, nextLine[2]={2},nextLine[3]={3}, nextLine[4]={4}")
+	@CsvFileSource(resources = "/testcases.csv")
+	void loginTest(String nextLine[]) {
+		    FxRobot robot=new FxRobot();
 		
 			Button btnlogin=robot.lookup("#loginButton").queryAs(Button.class);
 			assertNotNull(btnlogin);
@@ -55,36 +60,36 @@ class SampleControllerTest  {
 			robot.write("1");
 			robot.clickOn(btnlogin);
 			assertEquals("Login", btnlogin.getText());	
-			fillform(robot);
+			fillform(robot,nextLine);
 		
 		
 		
 	}
 	
 	
-	void fillform(FxRobot robot) {
+	void fillform(FxRobot robot,String nextLine[]) {
 	
 				robot.clickOn("#fnameTextField");
 				robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
-				robot.write("alok");
-				//robot.write(nextLine[0]);
+				//robot.write("alisha");
+				robot.write(nextLine[0]);
 				robot.clickOn("#lnameTextField");
 				robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
-				robot.write("sharma");
-				//robot.write(nextLine[1]);
+				//robot.write("shourya");
+				robot.write(nextLine[1]);
 				Spinner<Integer>ageSpinner=robot.lookup("#ageSpinner").queryAs(Spinner.class);
-				//ageSpinner.getValueFactory().increment(Integer.parseInt(nextLine[2])-1);
-				ageSpinner.getValueFactory().increment(8);
+				ageSpinner.getValueFactory().increment(Integer.parseInt(nextLine[2])-1);
+				//ageSpinner.getValueFactory().increment(2);
 				if(checkParentPane(robot)) {
 					robot.clickOn("#pfnameTextField");
 					robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
-					robot.write("alka");
+					//robot.write("alka");
 					
-					//robot.write(nextLine[3]);
+					robot.write(nextLine[3]);
 					robot.clickOn("#plnameTextField");
 					robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
-					robot.write("sharma");
-					//robot.write(nextLine[4]);
+					//robot.write("sharma");
+					robot.write(nextLine[4]);
 					
 				}
 				Button btnNext=robot.lookup("#nextButton").queryAs(Button.class);
@@ -97,8 +102,8 @@ class SampleControllerTest  {
 //							  idimgLabel.setText(nextLine[5]);
 //						  }
 //						);
-				//idimgTextField.setText(nextLine[5]);
-				idimgTextField.setText("/home/nidhi/Pictures/a.jpeg");
+				idimgTextField.setText(nextLine[5]);
+				//idimgTextField.setText("/home/nidhi/Pictures/a.jpeg");
 				Button btnSubmit=robot.lookup("#submitButton").queryAs(Button.class);
 				assertNotNull(btnSubmit);
 				robot.clickOn(btnSubmit);
@@ -132,5 +137,3 @@ class SampleControllerTest  {
 
 
 
-//@ParameterizedTest(name = "{index} => nextLine[0]={0}, nextLine[1]={1}, nextLine[2]={2},nextLine[3]={3}, nextLine[4]={4}")
-//@CsvFileSource(resources = "testdata/testcases.csv")
