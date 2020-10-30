@@ -1,6 +1,7 @@
 package  tests;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -77,10 +78,11 @@ class SampleControllerTest  {
 	void fillform(FxRobot robot) {
 				CSVReader csvReader;
 		        String[] nextLine; 
-		  
+		        //System.out.println(new File(".").getCanonicalPath());
 		        // we are going to read data line by line 
 		        try {
-		        	csvReader = new CSVReader(new FileReader("/testcases.csv"));
+		        	csvReader = new CSVReader(new FileReader(new File("").getAbsolutePath()+"/src/test/tests/testcases.csv"));
+		        	
 					while ((nextLine = csvReader.readNext()) != null) { 
 
 					robot.clickOn("#fnameTextField");
@@ -92,6 +94,7 @@ class SampleControllerTest  {
 					//robot.write("shourya");
 					robot.write(nextLine[1]);
 					Spinner<Integer>ageSpinner=robot.lookup("#ageSpinner").queryAs(Spinner.class);
+					ageSpinner.getValueFactory().setValue(1);
 					ageSpinner.getValueFactory().increment(Integer.parseInt(nextLine[2])-1);
 					//ageSpinner.getValueFactory().increment(2);
 					if(checkParentPane(robot)) {
