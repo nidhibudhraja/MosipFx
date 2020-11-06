@@ -110,7 +110,12 @@ class SampleControllerTest  {
 					ageSpinner.getValueFactory().setValue(1);
 					ageSpinner.getValueFactory().increment(Integer.parseInt(nextLine[2])-1);
 					//ageSpinner.getValueFactory().increment(2);
+					if(nextLine[10].equals("TRUE"))
+						robot.clickOn(headerId[10]);
+					else
+						robot.clickOn(headerId[11]);
 					if(checkParentPane(robot,headerId)) {
+						//System.out.println("4"+headerId[4]);
 						robot.clickOn(headerId[4]);
 						robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
 						//robot.write("alka");						

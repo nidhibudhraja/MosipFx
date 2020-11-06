@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
@@ -48,6 +49,12 @@ public class Screen1Controller implements Initializable {
 	private Spinner <Integer>ageSpinner;
 	SpinnerValueFactory<Integer> svf=new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1);
 	
+	@FXML
+	private RadioButton ageBelow5;
+	
+	@FXML
+	private RadioButton ageAbove5;
+	
 	@Override
 	public void initialize(URL url,ResourceBundle rb) {
 		
@@ -61,11 +68,16 @@ public class Screen1Controller implements Initializable {
 				// TODO Auto-generated method stub
 				
 				if(arg2<=5) {
+					//ageBelow5.setSelected(true);
+					//ageAbove5.setSelected(false);
+				
 					if(parentDetailsPane==null)
 						System.out.println("null");
 					parentDetailsPane.setVisible(true);
 					
 				}else {
+					//ageBelow5.setSelected(false);
+					//ageAbove5.setSelected(true);
 					parentDetailsPane.setVisible(false);
 					
 				}
@@ -120,7 +132,17 @@ public class Screen1Controller implements Initializable {
 	    System.err.println(String.format("Error: %s", e.getMessage()));
 	  }
 	}
-	
+	@FXML
+	private void ageGroupOnAction(ActionEvent event) {
+		int age=ageSpinner.getValue();
+		if(age<=5) {
+			ageBelow5.setSelected(true);
+			ageAbove5.setSelected(false);
+		}else {
+			ageBelow5.setSelected(false);
+			ageAbove5.setSelected(true);
+		}
+	}
 	
 
 }
