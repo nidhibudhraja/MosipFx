@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 
 
 
+
 @ExtendWith(ApplicationExtension.class)
 
 class SampleControllerTest  {
@@ -78,52 +79,64 @@ class SampleControllerTest  {
 	void fillform(FxRobot robot) {
 				CSVReader csvReader;
 		        String[] nextLine; 
+		        String[] header;
+		        
+		        
 		        //System.out.println(new File(".").getCanonicalPath());
 		        // we are going to read data line by line 
 		        try {
 		        	csvReader = new CSVReader(new FileReader(new File("").getAbsolutePath()+"/src/test/tests/testcases.csv"));
+		        	header=csvReader.readNext();
+		        	String headerId[]=new String[header.length];
 		        	
-					while ((nextLine = csvReader.readNext()) != null) { 
-
-					robot.clickOn("#fnameTextField");
+		        	for(int i=0;i<header.length;i++) {
+		        		headerId[i]=getId(header[i]);
+		        	}
+					while ((nextLine = csvReader.readNext()) != null && !nextLine[2].equals("")) { 
+//					if(nextLine[2].equals("") ){
+//						//System.out.println("breaking");
+//						break;
+//					}
+					//System.out.println(nextLine[0]+"1="+nextLine[1]+"2="+nextLine[2]);
+					robot.clickOn(headerId[0]);
 					robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
 					//robot.write("alisha");
 					robot.write(nextLine[0]);
-					robot.clickOn("#lnameTextField");
+					robot.clickOn(headerId[1]);
 					robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
 					//robot.write("shourya");
 					robot.write(nextLine[1]);
-					Spinner<Integer>ageSpinner=robot.lookup("#ageSpinner").queryAs(Spinner.class);
+					Spinner<Integer>ageSpinner=robot.lookup(headerId[2]).queryAs(Spinner.class);
 					ageSpinner.getValueFactory().setValue(1);
 					ageSpinner.getValueFactory().increment(Integer.parseInt(nextLine[2])-1);
 					//ageSpinner.getValueFactory().increment(2);
-					if(checkParentPane(robot)) {
-						robot.clickOn("#pfnameTextField");
+					if(checkParentPane(robot,headerId)) {
+						robot.clickOn(headerId[4]);
 						robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
 						//robot.write("alka");						
-						robot.write(nextLine[3]);
-						robot.clickOn("#plnameTextField");
+						robot.write(nextLine[4]);
+						robot.clickOn(headerId[5]);
 						robot.press(KeyCode.CONTROL).press(KeyCode.A).release(KeyCode.A).release(KeyCode.CONTROL);
 						//robot.write("sharma");
-						robot.write(nextLine[4]);
+						robot.write(nextLine[5]);
 						
 					}
-					Button btnNext=robot.lookup("#nextButton").queryAs(Button.class);
+					Button btnNext=robot.lookup(headerId[6]).queryAs(Button.class);
 					assertNotNull(btnNext);
 					robot.clickOn(btnNext);
-					TextField idimgTextField=robot.lookup("#imgTextField").queryAs(TextField.class);
+					TextField idimgTextField=robot.lookup(headerId[7]).queryAs(TextField.class);
 //				Platform.runLater(
 //						  () -> {
 //						    // Update UI here.
 //							  idimgLabel.setText(nextLine[5]);
 //						  }
 //						);
-					idimgTextField.setText(nextLine[5]);
+					idimgTextField.setText(nextLine[7]);
 					//idimgTextField.setText("/home/nidhi/Pictures/a.jpeg");
-					Button btnSubmit=robot.lookup("#submitButton").queryAs(Button.class);
+					Button btnSubmit=robot.lookup(headerId[8]).queryAs(Button.class);
 					assertNotNull(btnSubmit);
 					robot.clickOn(btnSubmit);
-					Button btnPrev=robot.lookup("#prevButton").queryAs(Button.class);
+					Button btnPrev=robot.lookup(headerId[9]).queryAs(Button.class);
 					assertNotNull(btnPrev);
 					robot.clickOn(btnPrev);
 					//putImage(robot);
@@ -134,10 +147,10 @@ class SampleControllerTest  {
 				}
 		
 	}
-	boolean checkParentPane(FxRobot robot) {
-		Spinner<Integer>ageSpinner=robot.lookup("#ageSpinner").queryAs(Spinner.class);
+	boolean checkParentPane(FxRobot robot,String headerId[]) {
+		Spinner<Integer>ageSpinner=robot.lookup(headerId[2]).queryAs(Spinner.class);
 		int age=ageSpinner.getValue();
-		AnchorPane parentPane=robot.lookup("#parentDetailsPane").queryAs(AnchorPane.class);
+		AnchorPane parentPane=robot.lookup(headerId[3]).queryAs(AnchorPane.class);
 		if(age<=5) {
 			assertTrue(parentPane.visibleProperty().getValue()==true);
 			return true;
@@ -151,6 +164,11 @@ class SampleControllerTest  {
 		Button btnUpload=robot.lookup("#uploadButton").queryAs(Button.class);
 		robot.clickOn(btnUpload);
 		
+	}
+	String getId(String header) {
+		String s[]=header.split("#",-2);
+		System.out.println("#"+s[1]);
+		return "#"+s[1];
 	}
 
 
